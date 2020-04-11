@@ -62,6 +62,11 @@ export let sermon = {
     type: "document",
     fields: [
         {
+            title: "Title",
+            name: "title",
+            type: "string"
+        },
+        {
             title: "PreachedAt",
             name: "preachedAt",
             type: "datetime"
