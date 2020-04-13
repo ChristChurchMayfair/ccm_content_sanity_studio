@@ -50,7 +50,7 @@ export let sermonSeries = {
         },
         {
             title: "Image Url",
-            name: "imageURL",
+            name: "imageUrl",
             type: "string"
         }
     ]
@@ -77,8 +77,8 @@ export let sermon = {
             type: "url"
         },
         {
-            title: "DurationInMinutes",
-            name: "durationInMinutes",
+            title: "durationInSeconds",
+            name: "durationInSeconds",
             type: "number"
         },
         {
