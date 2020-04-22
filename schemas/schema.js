@@ -7,6 +7,7 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 import person from './person'
 import blog from './blog'
 import { sermon, sermonSeries, sermonEvent } from './sermon'
+import emailCustom from './email'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -19,6 +20,7 @@ export default createSchema({
     blog,
     sermon,
     sermonSeries,
-    sermonEvent
+    sermonEvent,
+    emailCustom
   ])
 })
