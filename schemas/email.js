@@ -28,5 +28,18 @@ export default {
             type: 'array',
             of: [{ type: 'block' }]
         }
-    ]
+    ],
+    preview: {
+        select: {
+          title: 'title',
+          sendDate: 'sendAt'
+        },
+        prepare(selection) {
+            const {title, sendDate} = selection
+            return {
+                title: title,
+                subtitle: sendDate.split("T")[0]
+            }
+        }
+      }
 }
