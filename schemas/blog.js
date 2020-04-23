@@ -28,5 +28,19 @@ export default {
             type: 'array',
             of: [{ type: 'block' }]
         }
-    ]
+    ],
+    preview: {
+        select: {
+            title: 'title',
+            author: 'author.name',
+            dateCreated: '_createdAt'
+        },
+        prepare(selection) {
+            const { title, author, dateCreated } = selection
+            return {
+                title: title,
+                subtitle: `${author} - ${dateCreated.split('T')[0]}`
+            }
+        }
+    },
 }
