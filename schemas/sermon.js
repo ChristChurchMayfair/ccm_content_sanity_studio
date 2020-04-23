@@ -53,7 +53,13 @@ export let sermonSeries = {
             name: "imageUrl",
             type: "string"
         }
-    ]
+    ],
+    preview: {
+        select: {
+            title: 'name',
+            subtitle: 'subtitle'
+        }
+    }
 }
 
 export let sermon = {
