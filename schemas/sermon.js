@@ -116,5 +116,18 @@ export let sermon = {
                 }
             ]
         }
-    ]
+    ],
+    preview: {
+        select: {
+            title: 'title',
+            seriesName: 'series.name'
+        },
+        prepare(selection) {
+            const { title, seriesName } = selection
+            return {
+                title: title,
+                subtitle: `Series: ${seriesName}`
+            }
+        }
+    }
 }
