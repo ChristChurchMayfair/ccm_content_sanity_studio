@@ -24,5 +24,18 @@ export default {
         }
       ]
     }
-  ]
+  ],
+  preview: {
+      select: {
+          title: 'name',
+          roles: 'roles'
+      },
+      prepare(selection) {
+          const { title, roles } = selection
+          return {
+              title: title,
+              subtitle: roles ? roles.join(", ") : ""
+          }
+      }
+  },
 }
