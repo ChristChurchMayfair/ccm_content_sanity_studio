@@ -129,5 +129,14 @@ export let sermon = {
                 subtitle: `Series: ${seriesName}`
             }
         }
-    }
+    },
+    orderings: [
+        {
+          title: 'Preached Date, New to Old',
+          name: 'preachDateDesc',
+          by: [
+            {field: 'preachedAt', direction: 'desc'}
+          ]
+        }
+    ]
 }
