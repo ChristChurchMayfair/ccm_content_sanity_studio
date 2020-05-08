@@ -8,9 +8,19 @@ export let person = {
       name: "name",
       type: "string"
     },
+    { 
+      title: "Job Title",
+      name: "jobTitle",
+      type: "string"
+    },
     {
       title: "Email",
       name: "email",
+      type: "string"
+    },
+    {
+      title: "Public Phone Number",
+      name: "phone",
       type: "string"
     },
     {
@@ -25,7 +35,21 @@ export let person = {
               ]
           }
       ]
-  }
+    },
+    {
+      title: 'Bio',
+      name: 'bio',
+      type: 'array',
+      of: [{ type: 'block' }]
+    },
+    {
+      title: 'Headshot',
+      name: 'headshot',
+      type: 'image',
+      options: {
+        hotspot: true // <-- Defaults to false
+      }
+    }
   ],
   preview: {
       select: {
