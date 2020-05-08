@@ -30,13 +30,19 @@ export let person = {
   preview: {
       select: {
           title: 'name',
-          roles: 'roles.names'
+          role0: 'roles.0.name',
+          role1: 'roles.1.name',
+          role2: 'roles.2.name',
+          role3: 'roles.3.name',
       },
       prepare(selection) {
-          const { title, roles } = selection
+          const { title, role0, role1, role2, role3 } = selection
+          const roles = [role0, role1, role2].filter(Boolean)
+          const subtitle = roles.length > 0 ? `${roles.join(', ')}` : ''
+          const hasMoreRoles = Boolean(role3)
           return {
               title: title,
-              subtitle: roles ? roles.join(", ") : ""
+              subtitle: hasMoreRoles ? `${subtitle}…` : subtitle
           }
       }
   },
