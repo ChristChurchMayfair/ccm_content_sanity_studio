@@ -4,7 +4,7 @@ import createSchema from 'part:@sanity/base/schema-creator'
 // Then import schema types from any plugins that might expose them
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 
-import person from './person'
+import {person, role} from './people'
 import blog from './blog'
 import { sermon, sermonSeries, sermonEvent } from './sermon'
 import emailCustom from './email'
@@ -17,6 +17,7 @@ export default createSchema({
   // to the ones provided by any plugins that are installed
   types: schemaTypes.concat([
     person,
+    role,
     blog,
     sermon,
     sermonSeries,

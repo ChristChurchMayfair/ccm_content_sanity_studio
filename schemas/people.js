@@ -1,4 +1,4 @@
-export default {
+export let person = {
   title: "Person",
   name: "person",
   type: "document",
@@ -14,21 +14,23 @@ export default {
       type: "string"
     },
     {
-      title: "Roles",
-      name: "roles",
-      type: "array",
+      title: 'Roles',
+      name: 'roles',
       type: 'array',
       of: [
-        {
-          type: 'string',
-        }
+          {
+              type: 'reference',
+              to: [
+                  { type: 'role' },
+              ]
+          }
       ]
-    }
+  }
   ],
   preview: {
       select: {
           title: 'name',
-          roles: 'roles'
+          roles: 'roles.names'
       },
       prepare(selection) {
           const { title, roles } = selection
@@ -38,4 +40,25 @@ export default {
           }
       }
   },
+}
+
+export let role = {
+  title: "Role",
+  name: "role",
+  type: "document",
+  fields: [
+    {
+      title: "Name",
+      name: "name",
+      type: "string"
+    },
+    {
+      title: 'Slug',
+      name: 'slug',
+      type: 'slug',
+      options: {
+          source: 'name'
+      }
+    }
+  ]
 }
