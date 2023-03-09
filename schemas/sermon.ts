@@ -20,7 +20,9 @@ type Series @model {
 
   */
 
-export let sermonEvent = {
+import { defineField, defineType } from "sanity";
+
+export let sermonEvent = defineType({
     title: "Sermon Event",
     name: "sermonEvent",
     type: "document",
@@ -31,28 +33,28 @@ export let sermonEvent = {
             type: "string"
         }
     ]
-}
+})
 
-export let sermonSeries = {
+export let sermonSeries = defineType({
     title: "Sermon Series",
     name: "sermonSeries",
     type: "document",
     fields: [
-        {
+        defineField({
             title: "Name",
             name: "name",
             type: "string"
-        },
-        {
+        }),
+        defineField({
             title: "Subtitle",
             name: "subtitle",
             type: "string"
-        },
-        {
+        }),
+        defineField({
             title: "Image Url",
             name: "imageUrl",
             type: "string"
-        }
+        })
     ],
     preview: {
         select: {
@@ -60,56 +62,56 @@ export let sermonSeries = {
             subtitle: 'subtitle'
         }
     }
-}
+})
 
-export let sermon = {
+export let sermon = defineType({
     title: "Sermon",
     name: "sermon",
     type: "document",
     fields: [
-        {
+        defineField({
             title: "Title",
             name: "title",
             type: "string"
-        },
-        {
+        }),
+        defineField({
             title: "PreachedAt",
             name: "preachedAt",
             type: "datetime"
-        },
-        {
+        }),
+        defineField({
             title: "URL",
             name: "url",
             type: "url"
-        },
-        {
+        }),
+        defineField({
             title: "durationInSeconds",
             name: "durationInSeconds",
             type: "number"
-        },
-        {
+        }),
+        defineField({
             title: "Passages",
             name: "passages",
             type: 'array',
             of: [{ type: 'string' }]
-        },
-        {
+        }),
+        defineField({
             title: "Event",
             name: "event",
             type: "reference",
             to: [
                 { type: "sermonEvent" }
             ]
-        },
-        {
+        }),
+        defineField({
             title: "Series",
             name: "series",
             type: "reference",
             to: [
                 { type: "sermonSeries" }
             ]
-        },
-        {
+        }),
+        defineField({
             title: 'Speakers',
             name: 'speakers',
             type: 'array',
@@ -121,21 +123,21 @@ export let sermon = {
                     ]
                 }
             ]
-        }
+        })
     ],
-    preview: {
-        select: {
-            title: 'title',
-            seriesName: 'series.name'
-        },
-        prepare(selection) {
-            const { title, seriesName } = selection
-            return {
-                title: title,
-                subtitle: `Series: ${seriesName}`
-            }
-        }
-    },
+    // preview: {
+    //     select: {
+    //         title: 'title',
+    //         seriesName: 'series.name'
+    //     },
+    //     prepare(selection: { title: any; seriesName: any }) {
+    //         const { title, seriesName } = selection
+    //         return {
+    //             title: title,
+    //             subtitle: `Series: ${seriesName}`
+    //         }
+    //     }
+    // },
     orderings: [
         {
           title: 'Preached Date, New to Old',
@@ -145,4 +147,4 @@ export let sermon = {
           ]
         }
     ]
-}
+})
