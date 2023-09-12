@@ -22,7 +22,7 @@ type Series @model {
 
 import { defineField, defineType } from "sanity";
 
-export let sermonEvent = defineType({
+export const sermonEvent = defineType({
     title: "Sermon Event",
     name: "sermonEvent",
     type: "document",
@@ -35,7 +35,7 @@ export let sermonEvent = defineType({
     ]
 })
 
-export let sermonSeries = defineType({
+export const sermonSeries = defineType({
     title: "Sermon Series",
     name: "sermonSeries",
     type: "document",
@@ -64,7 +64,7 @@ export let sermonSeries = defineType({
     }
 })
 
-export let sermon = defineType({
+export const sermon = defineType({
     title: "Sermon",
     name: "sermon",
     type: "document",
