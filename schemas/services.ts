@@ -26,6 +26,10 @@ export const service = defineType({
       name: "youtubeStream",
     }),
     defineField({
+        type: "url",
+        name: "serviceSheet",
+      }),
+    defineField({
       title: "Description",
       name: "description",
       type: "array",
