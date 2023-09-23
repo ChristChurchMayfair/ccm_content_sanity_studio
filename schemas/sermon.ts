@@ -123,6 +123,11 @@ export const sermon = defineType({
                     ]
                 }
             ]
+        }),
+        defineField({
+            name: "youtubeVideoId",
+            title: "YouTube Video ID",
+            type: "string"
         })
     ],
     // preview: {
