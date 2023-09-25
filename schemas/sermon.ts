@@ -154,6 +154,12 @@ export const sermon = defineType({
       validation: TimestampRule,
       description: "This is the timestamp in the youtube video where the sermon ends starts. Use the end of the preachers closing prayer."
     }),
+    defineField({
+        name: "sermonNumber",
+        title: "Sermon Number",
+        type: "number",
+        description: "This is the number of the sermon within the series. First sermon is 1, and so on"
+      }),
   ],
   // preview: {
   //     select: {
