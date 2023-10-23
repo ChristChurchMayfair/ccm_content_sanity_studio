@@ -12,6 +12,7 @@ import { createSchema } from 'sanity'
 import { servingOpportunity } from './serving'
 import { notice } from './notices'
 import { service } from './services'
+import {jobAdvert} from './jobs'
 
 const types = [
     person,
@@ -24,7 +25,8 @@ const types = [
     // accomodationOffered,
     // servingOpportunity,
     // notice,
-    service
+    service,
+    jobAdvert
   ]
 
 // Then we give our schema to the builder and provide the result to Sanity
