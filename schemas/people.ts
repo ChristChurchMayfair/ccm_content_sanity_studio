@@ -11,6 +11,14 @@ export const person = defineType({
       type: 'string',
     }),
     defineField({
+      title: 'Slug',
+      name: 'slug',
+      type: 'slug',
+      options: {
+        source: 'name',
+      },
+    }),
+    defineField({
       title: 'Job Title',
       name: 'jobTitle',
       type: 'string',
