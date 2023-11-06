@@ -20,7 +20,7 @@ type Series @model {
 
   */
 
-import { StringRule, defineField, defineType } from "sanity";
+import { SanityDocument, SlugSourceContext, StringRule, defineField, defineType } from "sanity";
 
 const TimestampRule = (Rule: StringRule) =>
   Rule.custom((timestamp) => {
@@ -66,6 +66,14 @@ export const sermonSeries = defineType({
       title: "Subtitle",
       name: "subtitle",
       type: "string",
+    }),
+    defineField({
+      title: 'Slug',
+      name: 'slug',
+      type: 'slug',
+      options: {
+        source: (doc: SanityDocument, context: SlugSourceContext) =>`${doc.name}${doc.subtitle !== null ? "-" + doc.subtitle : ""}`
+      }
     }),
     defineField({
       title: "Image Url",
