@@ -89,6 +89,13 @@ export const role = defineType({
       title: 'Name',
       name: 'name',
       type: 'string',
+      description: "A name, which should be the singular name for this role. e.g. Elder"
+    }),
+    defineField({
+      title: 'Plural',
+      name: 'pluralname',
+      type: 'string',
+      description: "The pluralised name for this role. e.g. Elders"
     }),
     defineField({
       title: 'Slug',
