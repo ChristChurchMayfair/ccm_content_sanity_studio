@@ -99,6 +99,12 @@ export const sermonSeries = defineType({
       type: "string",
     }),
     defineField({
+      title: "Series Type",
+      name: "seriesType",
+      type: "reference",
+      to: [{ type: "seriesType" }],
+    }),
+    defineField({
       name: "seasonNumber",
       title: "Season Number",
       type: "slug",
