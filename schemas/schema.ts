@@ -7,7 +7,7 @@
 import { accomodationOffered, accomodationSought } from './accomodation'
 import { blog } from './blog'
 import {person, role} from './people'
-import { sermon, sermonSeries, sermonEvent } from './sermon'
+import { sermon, sermonSeries, seriesType, sermonEvent } from './sermon'
 import { createSchema } from 'sanity'
 import { servingOpportunity } from './serving'
 import { notice } from './notices'
@@ -19,6 +19,7 @@ const types = [
     role,
     sermon,
     sermonSeries,
+    seriesType,
     sermonEvent,
     // blog,
     // accomodationSought,

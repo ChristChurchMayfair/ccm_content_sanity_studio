@@ -41,6 +41,10 @@ S.list()
               .schemaType('sermonSeries')
               .child(S.documentTypeList('sermonSeries').title('Series')),
             S.listItem()
+              .title('Series Types')
+              .schemaType('seriesType')
+              .child(S.documentTypeList('seriesType').title('Series Types')),
+            S.listItem()
               .title('Events')
               .schemaType('sermonEvent')
               .child(S.documentTypeList('sermonEvent').title('Events')),
@@ -48,7 +52,7 @@ S.list()
       ),
     ...S.documentTypeListItems().filter(
       (listItem) =>
-        !['person', 'role', 'sermon', 'sermonSeries', 'sermonEvent', "accomodationSought", "accomodationOffered"].includes(
+        !['person', 'role', 'sermon', 'sermonSeries', 'seriesType', 'sermonEvent', "accomodationSought", "accomodationOffered"].includes(
           listItem.getId() ?? ''
         )
     ),

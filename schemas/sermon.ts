@@ -20,7 +20,7 @@ type Series @model {
 
   */
 
-import { SanityDocument, SlugSourceContext, StringRule, defineField, defineType } from "sanity";
+import { SanityDocument, Slug, SlugSourceContext, StringRule, defineField, defineType, validation } from "sanity";
 
 const TimestampRule = (Rule: StringRule) =>
   Rule.custom((timestamp) => {
@@ -38,6 +38,24 @@ const TimestampRule = (Rule: StringRule) =>
       return "Not a valid timestamp - should match HHHHHH:MM:SS"; // Error message goes here
     }
   });
+
+export const seriesType = defineType({
+  title: "Series Type",
+  name: "seriesType",
+  type: "document",
+  fields: [
+    defineField({
+      title: "Name",
+      name: "name",
+      type: "string",
+    }),
+    defineField({
+      title: "Description",
+      name: "description",
+      type: "text",
+    }),
+  ],
+});
 
 export const sermonEvent = defineType({
   title: "Sermon Event",
@@ -80,6 +98,26 @@ export const sermonSeries = defineType({
       name: "imageUrl",
       type: "string",
     }),
+    defineField({
+      name: "seasonNumber",
+      title: "Season Number",
+      type: "slug",
+      description: "season number, lower numbers are older. Leave empty for non-seasonal shows (bonus episodes)",
+      validation: Rule => Rule.custom<Slug>(number => {
+        // Allow empty values for non-seasonal shows
+        if (!number?.current) {
+          return true;
+        }
+        const value = parseInt(number.current, 10);
+        if (isNaN(value)) {
+          return "Number must be a valid integer";
+        }
+        if (value <= 0) {
+          return "Number must be a positive, non-zero integer";
+        }
+        return true;
+      })
+    })
   ],
   preview: {
     select: {
