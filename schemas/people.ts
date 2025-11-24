@@ -66,6 +66,7 @@ export const person = defineType({
       role1: 'roles.1.name',
       role2: 'roles.2.name',
       role3: 'roles.3.name',
+      media: 'headshot'
     },
     prepare: (value, options) => {
       const {title, role0, role1, role2, role3} = value
@@ -75,6 +76,7 @@ export const person = defineType({
       return {
         title: title,
         subtitle: hasMoreRoles ? `${subtitle}…` : subtitle,
+        media: value.media
       }
     },
   },
