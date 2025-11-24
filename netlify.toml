@@ -2,7 +2,7 @@
 command = "bun run build"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
   # Enable bun for faster builds
   BUN_VERSION = "1.2.15"
 
