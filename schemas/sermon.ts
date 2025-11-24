@@ -20,198 +20,252 @@ type Series @model {
 
   */
 
-import { SanityDocument, Slug, SlugSourceContext, StringRule, defineField, defineType, validation } from "sanity";
+import {
+  SanityDocument,
+  Slug,
+  SlugSourceContext,
+  StringRule,
+  defineField,
+  defineType,
+  validation,
+} from 'sanity'
 
 const TimestampRule = (Rule: StringRule) =>
   Rule.custom((timestamp) => {
-    if (typeof timestamp === "undefined") {
-      return true; // Allow undefined values, remove if the field is required
+    if (typeof timestamp === 'undefined') {
+      return true // Allow undefined values, remove if the field is required
     }
-    const parts = timestamp.split(":");
+    const parts = timestamp.split(':')
     if (parts.length !== 3) {
-      return "Not a valid timestamp - should match HH:MM:SS"; // Error message goes here
+      return 'Not a valid timestamp - should match HH:MM:SS' // Error message goes here
     }
-    const regex = /(\d+:)([0-5]?\d:)([0-5]?\d)/gi; // Regex pattern goes here
+    const regex = /(\d+:)([0-5]?\d:)([0-5]?\d)/gi // Regex pattern goes here
     if (regex.test(timestamp)) {
-      return true;
+      return true
     } else {
-      return "Not a valid timestamp - should match HHHHHH:MM:SS"; // Error message goes here
+      return 'Not a valid timestamp - should match HHHHHH:MM:SS' // Error message goes here
     }
-  });
+  })
 
 export const seriesType = defineType({
-  title: "Series Type",
-  name: "seriesType",
-  type: "document",
+  title: 'Series Type',
+  name: 'seriesType',
+  type: 'document',
   fields: [
     defineField({
-      title: "Name",
-      name: "name",
-      type: "string",
+      title: 'Name',
+      name: 'name',
+      type: 'string',
     }),
     defineField({
-      title: "Description",
-      name: "description",
-      type: "text",
+      title: 'Description',
+      name: 'description',
+      type: 'text',
     }),
   ],
-});
+})
 
 export const sermonEvent = defineType({
-  title: "Sermon Event",
-  name: "sermonEvent",
-  type: "document",
+  title: 'Sermon Event',
+  name: 'sermonEvent',
+  type: 'document',
   fields: [
     {
-      title: "Name",
-      name: "name",
-      type: "string",
+      title: 'Name',
+      name: 'name',
+      type: 'string',
     },
   ],
-});
+})
 
 export const sermonSeries = defineType({
-  title: "Sermon Series",
-  name: "sermonSeries",
-  type: "document",
+  title: 'Sermon Series',
+  name: 'sermonSeries',
+  type: 'document',
   fields: [
     defineField({
-      title: "Name",
-      name: "name",
-      type: "string",
+      title: 'Name',
+      name: 'name',
+      type: 'string',
     }),
     defineField({
-      title: "Subtitle",
-      name: "subtitle",
-      type: "string",
+      title: 'Subtitle',
+      name: 'subtitle',
+      type: 'string',
+    }),
+    defineField({
+      title: 'Bible Passage',
+      name: 'biblePassage',
+      type: 'string',
+      description:
+        "Which part of the Bible, if any, this series looks at.",
+    }),
+    defineField({
+      title: 'General Date',
+      name: 'generalDate',
+      type: 'string',
+      description:
+        "A means to disambiguate series that have the same name (e.g. re-runs or series that are merely named after a Bible book). This field has no formal structure (e.g. you can enter 2021-2022 or summer '24, etc) and is not validated.",
     }),
     defineField({
       title: 'Slug',
       name: 'slug',
       type: 'slug',
       options: {
-        source: (doc: SanityDocument, context: SlugSourceContext) =>`${doc.name}${doc.subtitle !== null ? "-" + doc.subtitle : ""}`
-      }
+        source: (doc: SanityDocument, context: SlugSourceContext) => {
+          let slug = doc.name || ''
+          if (doc.subtitle) {
+            slug += '-' + doc.subtitle
+          }
+          if (doc.biblePassage) {
+            slug += '-' + doc.biblePassage
+          }
+          if (doc.generalDate) {
+            slug += '-' + doc.generalDate
+          }
+          return slug
+        },
+      },
     }),
     defineField({
-      title: "Image Url",
-      name: "imageUrl",
-      type: "string",
+      title: 'Image Url',
+      name: 'imageUrl',
+      type: 'string',
     }),
     defineField({
-      title: "Series Type",
-      name: "seriesType",
-      type: "reference",
-      to: [{ type: "seriesType" }],
+      title: 'Series Type',
+      name: 'seriesType',
+      type: 'reference',
+      to: [{type: 'seriesType'}],
     }),
+
     defineField({
-      name: "seasonNumber",
-      title: "Season Number",
-      type: "slug",
-      description: "season number, lower numbers are older. Leave empty for non-seasonal shows (bonus episodes)",
-      validation: Rule => Rule.custom<Slug>(number => {
-        // Allow empty values for non-seasonal shows
-        if (!number?.current) {
-          return true;
-        }
-        const value = parseInt(number.current, 10);
-        if (isNaN(value)) {
-          return "Number must be a valid integer";
-        }
-        if (value <= 0) {
-          return "Number must be a positive, non-zero integer";
-        }
-        return true;
-      })
-    })
+      name: 'seasonNumber',
+      title: 'Season Number',
+      type: 'slug',
+      description:
+        'season number, lower numbers are older. Leave empty for non-seasonal shows (bonus episodes)',
+      validation: (Rule) =>
+        Rule.custom<Slug>((number) => {
+          // Allow empty values for non-seasonal shows
+          if (!number?.current) {
+            return true
+          }
+          const value = parseInt(number.current, 10)
+          if (isNaN(value)) {
+            return 'Number must be a valid integer'
+          }
+          if (value <= 0) {
+            return 'Number must be a positive, non-zero integer'
+          }
+          return true
+        }),
+    }),
   ],
   preview: {
     select: {
-      title: "name",
-      subtitle: "subtitle",
+      title: 'name',
+      subtitle: 'subtitle',
+      biblePassage: 'biblePassage',
+      generalDate: 'generalDate',
+    },
+    prepare(selection: { title: string; subtitle?: string; biblePassage?: string; generalDate?: string }) {
+      const { title, subtitle, biblePassage, generalDate } = selection
+      const parts = []
+
+      if (subtitle) parts.push(subtitle)
+      if (biblePassage) parts.push(biblePassage)
+      if (generalDate) parts.push(generalDate)
+
+      return {
+        title: title,
+        subtitle: parts.length > 0 ? parts.join(' • ') : undefined,
+      }
     },
   },
-});
+})
 
 export const sermon = defineType({
-  title: "Sermon",
-  name: "sermon",
-  type: "document",
+  title: 'Sermon',
+  name: 'sermon',
+  type: 'document',
   fields: [
     defineField({
-      title: "Title",
-      name: "title",
-      type: "string",
+      title: 'Title',
+      name: 'title',
+      type: 'string',
     }),
     defineField({
-      title: "PreachedAt",
-      name: "preachedAt",
-      type: "datetime",
+      title: 'PreachedAt',
+      name: 'preachedAt',
+      type: 'datetime',
     }),
     defineField({
-      title: "URL",
-      name: "url",
-      type: "url",
+      title: 'URL',
+      name: 'url',
+      type: 'url',
     }),
     defineField({
-      title: "durationInSeconds",
-      name: "durationInSeconds",
-      type: "number",
+      title: 'durationInSeconds',
+      name: 'durationInSeconds',
+      type: 'number',
     }),
     defineField({
-      title: "Passages",
-      name: "passages",
-      type: "array",
-      of: [{ type: "string" }],
+      title: 'Passages',
+      name: 'passages',
+      type: 'array',
+      of: [{type: 'string'}],
     }),
     defineField({
-      title: "Event",
-      name: "event",
-      type: "reference",
-      to: [{ type: "sermonEvent" }],
+      title: 'Event',
+      name: 'event',
+      type: 'reference',
+      to: [{type: 'sermonEvent'}],
     }),
     defineField({
-      title: "Series",
-      name: "series",
-      type: "reference",
-      to: [{ type: "sermonSeries" }],
+      title: 'Series',
+      name: 'series',
+      type: 'reference',
+      to: [{type: 'sermonSeries'}],
     }),
     defineField({
-      title: "Speakers",
-      name: "speakers",
-      type: "array",
+      title: 'Speakers',
+      name: 'speakers',
+      type: 'array',
       of: [
         {
-          type: "reference",
-          to: [{ type: "person" }],
+          type: 'reference',
+          to: [{type: 'person'}],
         },
       ],
     }),
     defineField({
-      name: "youtubeVideoId",
-      title: "YouTube Video ID",
-      type: "string",
+      name: 'youtubeVideoId',
+      title: 'YouTube Video ID',
+      type: 'string',
     }),
     defineField({
-      name: "youtubeVideoSermonStartTimestamp",
-      title: "Sermon Start Timestamp",
-      type: "string",
+      name: 'youtubeVideoSermonStartTimestamp',
+      title: 'Sermon Start Timestamp',
+      type: 'string',
       validation: TimestampRule,
-      description: "This is the timestamp in the youtube video where the reading starts"
+      description: 'This is the timestamp in the youtube video where the reading starts',
     }),
     defineField({
-      name: "youtubeVideoSermonEndTimestamp",
-      title: "Sermon End Timestamp",
-      type: "string",
+      name: 'youtubeVideoSermonEndTimestamp',
+      title: 'Sermon End Timestamp',
+      type: 'string',
       validation: TimestampRule,
-      description: "This is the timestamp in the youtube video where the sermon ends starts. Use the end of the preachers closing prayer."
+      description:
+        'This is the timestamp in the youtube video where the sermon ends starts. Use the end of the preachers closing prayer.',
     }),
     defineField({
-        name: "sermonNumber",
-        title: "Sermon Number",
-        type: "number",
-        description: "This is the number of the sermon within the series. First sermon is 1, and so on"
-      }),
+      name: 'sermonNumber',
+      title: 'Sermon Number',
+      type: 'number',
+      description:
+        'This is the number of the sermon within the series. First sermon is 1, and so on',
+    }),
   ],
   // preview: {
   //     select: {
@@ -228,9 +282,9 @@ export const sermon = defineType({
   // },
   orderings: [
     {
-      title: "Preached Date, New to Old",
-      name: "preachDateDesc",
-      by: [{ field: "preachedAt", direction: "desc" }],
+      title: 'Preached Date, New to Old',
+      name: 'preachDateDesc',
+      by: [{field: 'preachedAt', direction: 'desc'}],
     },
   ],
-});
+})
