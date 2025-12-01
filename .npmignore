@@ -1,0 +1,6 @@
+# Only publish the generated types and schema
+*
+!sanity.types.ts
+!schema.json
+!package.json
+!README.md

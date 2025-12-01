@@ -1,9 +1,13 @@
 {
-  "name": "ccm-content",
+"name": "ccm-content",
   "private": true,
   "version": "1.0.0",
   "main": "package.json",
   "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChristChurchMayfair/ccm_content_sanity_studio.git"
+  },
   "scripts": {
     "dev": "sanity dev",
     "start": "sanity start",

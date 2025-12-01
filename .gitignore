@@ -1,3 +1,7 @@
 dist/
 node_modules/
 .sanity/
+
+# Generated files
+sanity.types.ts
+schema.json
