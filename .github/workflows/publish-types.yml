@@ -20,7 +20,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Node.js for npm registry
         uses: actions/setup-node@v4
         with:
           node-version: '18'
@@ -28,14 +33,14 @@ jobs:
           scope: '@christchurchmayfair'
 
       - name: Install dependencies
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       - name: Generate types
-        run: npm run typegen
+        run: bun run typegen
 
       - name: Update package.json for publishing
         run: |
-          node -e "
+          bun -e "
           const pkg = require('./package.json');
           pkg.name = '@christchurchmayfair/sanity-types';
           pkg.version = '1.0.' + process.env.GITHUB_RUN_NUMBER;
